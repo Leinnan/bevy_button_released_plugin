@@ -1,11 +1,11 @@
-# Bevy Button click plugin
+# Bevy Button Released plugin
 
 This crate makes [Bevy](https://github.com/bevyengine/bevy) application aware of the release of the button instead of reacting right after clicking. I think it will be addressed in next release but until then it could be helpful for some people.
 
 # Install
 
 ```
-cargo add bevy_button_click_plugin
+cargo add bevy_button_released_plugin
 
 ```
 
@@ -15,7 +15,7 @@ Add `ButtonsReleasedPlugin` during app creation process, `GameButton` component 
 
 ```rust
 use bevy::prelude::*;
-use bevy_button_click_plugin::{ButtonReleasedEvent, ButtonsReleasedPlugin, GameButton};
+use bevy_button_released_plugin::{ButtonReleasedEvent, ButtonsReleasedPlugin, GameButton};
 
 pub fn main() {
     let mut app = App::new();

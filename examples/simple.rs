@@ -1,5 +1,5 @@
 use bevy::prelude::*;
-use bevy_button_click_plugin::{ButtonReleasedEvent, ButtonsReleasedPlugin, GameButton};
+use bevy_button_released_plugin::{ButtonReleasedEvent, ButtonsReleasedPlugin, GameButton};
 
 pub fn main() {
     let mut app = App::new();

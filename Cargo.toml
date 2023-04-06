@@ -1,9 +1,9 @@
 [package]
-name = "bevy_button_click_plugin"
+name = "bevy_button_released_plugin"
 version = "0.1.0"
 edition = "2021"
-repository = "https://github.com/Leinnan/bevy_button_click_plugin"
-homepage = "https://github.com/Leinnan/bevy_button_click_plugin"
+repository = "https://github.com/Leinnan/bevy_button_released_plugin"
+homepage = "https://github.com/Leinnan/bevy_button_released_plugin"
 readme = "README.md"
 license = "MIT"
 keywords = ["bevy", "game"]
