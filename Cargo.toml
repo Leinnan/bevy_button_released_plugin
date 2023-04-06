@@ -1,0 +1,17 @@
+[package]
+name = "bevy_button_click_plugin"
+version = "0.1.0"
+edition = "2021"
+repository = "https://github.com/Leinnan/bevy_button_click_plugin"
+homepage = "https://github.com/Leinnan/bevy_button_click_plugin"
+readme = "README.md"
+license = "MIT"
+keywords = ["bevy", "game"]
+categories  = ["game-engines"]
+description = "Bevy helper crate that allows to react to button being released."
+
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+bevy = "0.10.0"
