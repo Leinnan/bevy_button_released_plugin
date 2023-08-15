@@ -4,9 +4,9 @@ use bevy_button_released_plugin::{ButtonReleasedEvent, ButtonsReleasedPlugin, Ga
 pub fn main() {
     let mut app = App::new();
     app.add_plugins(DefaultPlugins)
-        .add_plugin(ButtonsReleasedPlugin)
-        .add_startup_system(setup)
-        .add_system(button_system);
+        .add_plugins(ButtonsReleasedPlugin)
+        .add_systems(Startup, setup)
+        .add_systems(Update, button_system);
     app.run();
 }
 
@@ -26,7 +26,8 @@ fn setup(mut commands: Commands) {
     commands
         .spawn(NodeBundle {
             style: Style {
-                size: Size::width(Val::Percent(100.0)),
+                width: Val::Percent(100.0),
+                height: Val::Percent(100.0),
                 justify_content: JustifyContent::SpaceEvenly,
                 flex_direction: FlexDirection::Column,
                 ..default()

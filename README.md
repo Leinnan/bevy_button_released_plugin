@@ -6,7 +6,6 @@ This crate makes [Bevy](https://github.com/bevyengine/bevy) application aware of
 
 ```
 cargo add bevy_button_released_plugin
-
 ```
 
 # Usage
@@ -20,9 +19,9 @@ use bevy_button_released_plugin::{ButtonReleasedEvent, ButtonsReleasedPlugin, Ga
 pub fn main() {
     let mut app = App::new();
     app.add_plugins(DefaultPlugins)
-        .add_plugin(ButtonsReleasedPlugin)
-        .add_startup_system(setup)
-        .add_system(button_system);
+        .add_plugins(ButtonsReleasedPlugin)
+        .add_systems(Startup, setup)
+        .add_systems(Update, button_system);
     app.run();
 }
 
@@ -42,7 +41,8 @@ fn setup(mut commands: Commands) {
     commands
         .spawn(NodeBundle {
             style: Style {
-                size: Size::width(Val::Percent(100.0)),
+                width: Val::Percent(100.0),
+                height: Val::Percent(100.0),
                 justify_content: JustifyContent::SpaceEvenly,
                 flex_direction: FlexDirection::Column,
                 ..default()
@@ -74,6 +74,7 @@ fn setup(mut commands: Commands) {
 ```
 
 # Bevy compatibility table
-Bevy version | crate version
+Bevy version | Crate version
 --- | ---
+0.11 | 0.2.0
 0.10 | 0.1.0
