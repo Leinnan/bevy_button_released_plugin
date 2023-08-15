@@ -1,5 +1,9 @@
 # Bevy Button Released plugin
 
+[![crates.io](https://img.shields.io/crates/v/bevy_button_released_plugin.svg)](https://crates.io/crates/bevy_button_released_plugin)
+[![license](https://img.shields.io/crates/l/bevy_button_released_plugin)](https://github.com/NiklasEi/bevy_button_released_plugin#license)
+[![crates.io](https://img.shields.io/crates/d/bevy_button_released_plugin.svg)](https://crates.io/crates/bevy_button_released_plugin)
+
 This crate makes [Bevy](https://github.com/bevyengine/bevy) application aware of the release of the button instead of reacting right after clicking. I think it will be addressed in next release but until then it could be helpful for some people.
 
 # Install
