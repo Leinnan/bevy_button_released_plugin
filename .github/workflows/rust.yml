@@ -40,7 +40,7 @@ jobs:
       - name: Build
         run: cargo build --release --target wasm32-unknown-unknown --example simple && wasm-bindgen --out-dir ./out/ --target web ./target/wasm32-unknown-unknown/release/examples/simple.wasm  
       - name: Copy
-        run: cp -R assets out/ && cp index.html out/index.html && ls -R out
+        run: cp index.html out/index.html && ls -R out
       - name: Push
         uses: s0/git-publish-subdir-action@develop
         env:
