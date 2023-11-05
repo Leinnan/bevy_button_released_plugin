@@ -20,6 +20,9 @@ Add `ButtonsReleasedPlugin` during app creation process, `GameButton` component 
 use bevy::prelude::*;
 use bevy_button_released_plugin::{ButtonReleasedEvent, ButtonsReleasedPlugin, GameButton};
 
+#[derive(Component)]
+pub struct Info;
+
 pub fn main() {
     let mut app = App::new();
     app.add_plugins(DefaultPlugins)
@@ -29,10 +32,11 @@ pub fn main() {
     app.run();
 }
 
-fn button_system(mut reader: EventReader<ButtonReleasedEvent>, q: Query<&Name>) {
-    for event in reader.iter() {
+fn button_system(mut reader: EventReader<ButtonReleasedEvent>, q: Query<&Name>, mut q_text: Query<&mut Text,With<Info>>) {
+    let mut text = q_text.single_mut();
+    for event in reader.read() {
         if let Ok(button_name) = q.get(**event) {
-            info!("Button released: {}", button_name);
+            text.sections[0].value = format!("Last button released: {}", button_name);
         }
     }
 }
@@ -53,11 +57,27 @@ fn setup(mut commands: Commands) {
             },
             ..default()
         })
-        .with_children(|parent| {
+        .with_children(|parent| {   
+            parent.spawn((
+            TextBundle::from_section(
+                "",
+                TextStyle {
+                    font_size: 30.0,
+                    ..default()
+                },
+            )
+                .with_text_alignment(TextAlignment::Center)
+                .with_style(Style {
+                    margin: UiRect::all(Val::Px(18.0)),
+                    padding: UiRect::all(Val::Px(30.0)),
+                    ..default()
+                }),
+            Info,
+        ));
             for (text, color) in [
-                ("GreenButton", Color::GREEN),
-                ("RedButton", Color::ORANGE_RED),
-                ("YellowButton", Color::YELLOW),
+                ("Green", Color::GREEN),
+                ("Red", Color::ORANGE_RED),
+                ("Yellow", Color::YELLOW),
             ] {
                 parent.spawn((
                     ButtonBundle {
@@ -80,5 +100,6 @@ fn setup(mut commands: Commands) {
 # Bevy compatibility table
 Bevy version | Crate version
 --- | ---
+0.12 | 0.3.0
 0.11 | 0.2.0
 0.10 | 0.1.0
