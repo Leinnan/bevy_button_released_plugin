@@ -1,6 +1,8 @@
+#[cfg(feature = "auto_add")]
+use bevy::ecs::*;
 use bevy::{
     prelude::{App, Changed, Component, Deref, Entity, Event, EventWriter, Plugin, Query, Update},
-    ui::Interaction,
+    ui::*,
 };
 
 pub struct ButtonsReleasedPlugin;
@@ -17,6 +19,18 @@ impl Plugin for ButtonsReleasedPlugin {
     fn build(&self, app: &mut App) {
         app.add_event::<ButtonReleasedEvent>()
             .add_systems(Update, button_click_system);
+        #[cfg(feature = "auto_add")]
+        app.add_systems(bevy::app::PostUpdate, add_game_button);
+    }
+}
+
+#[cfg(feature = "auto_add")]
+fn add_game_button(
+    q: Query<Entity, (query::With<widget::Button>, query::Without<GameButton>)>,
+    mut commands: system::Commands,
+) {
+    for e in q.iter() {
+        commands.entity(e).insert(GameButton::default());
     }
 }
 

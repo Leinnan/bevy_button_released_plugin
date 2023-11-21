@@ -14,11 +14,11 @@ cargo add bevy_button_released_plugin
 
 # Usage
 
-Add `ButtonsReleasedPlugin` during app creation process, `GameButton` component to buttons that you want to react to it like in `button_system` function in example below.
+Add `ButtonsReleasedPlugin` during app creation process, then the `GameButton` component will be added to buttons and it is possible to react to it like in `button_system` function in example below. Auto adding `GameButton` can be disabled by disabling default "auto_add" feature.
 
 ```rust
 use bevy::prelude::*;
-use bevy_button_released_plugin::{ButtonReleasedEvent, ButtonsReleasedPlugin, GameButton};
+use bevy_button_released_plugin::{ButtonReleasedEvent, ButtonsReleasedPlugin};
 
 pub fn main() {
     let mut app = App::new();
@@ -59,6 +59,11 @@ fn setup(mut commands: Commands) {
             ..default()
         })
         .with_children(|parent| {
+            let style: Style = Style {
+                margin: UiRect::all(Val::Px(18.0)),
+                padding: UiRect::all(Val::Px(30.0)),
+                ..default()
+            };
             parent.spawn(
                 TextBundle::from_section(
                     "Press any button below",
@@ -68,11 +73,7 @@ fn setup(mut commands: Commands) {
                     },
                 )
                 .with_text_alignment(TextAlignment::Center)
-                .with_style(Style {
-                    margin: UiRect::all(Val::Px(18.0)),
-                    padding: UiRect::all(Val::Px(30.0)),
-                    ..default()
-                }),
+                .with_style(style.clone()),
             );
             for (text, color) in [
                 ("Green", Color::GREEN),
@@ -81,15 +82,10 @@ fn setup(mut commands: Commands) {
             ] {
                 parent.spawn((
                     ButtonBundle {
-                        style: Style {
-                            margin: UiRect::all(Val::Px(18.0)),
-                            padding: UiRect::all(Val::Px(30.0)),
-                            ..default()
-                        },
+                        style: style.clone(),
                         background_color: BackgroundColor(color),
                         ..default()
                     },
-                    GameButton::default(),
                     Name::new(text),
                 ));
             }
@@ -100,6 +96,6 @@ fn setup(mut commands: Commands) {
 # Bevy compatibility table
 Bevy version | Crate version
 --- | ---
-0.12 | 0.3.0
-0.11 | 0.2.0
-0.10 | 0.1.0
+0.12 | 0.3,0.4
+0.11 | 0.2
+0.10 | 0.1

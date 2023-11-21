@@ -1,5 +1,5 @@
 use bevy::prelude::*;
-use bevy_button_released_plugin::{ButtonReleasedEvent, ButtonsReleasedPlugin, GameButton};
+use bevy_button_released_plugin::{ButtonReleasedEvent, ButtonsReleasedPlugin};
 
 pub fn main() {
     let mut app = App::new();
@@ -40,6 +40,11 @@ fn setup(mut commands: Commands) {
             ..default()
         })
         .with_children(|parent| {
+            let style: Style = Style {
+                margin: UiRect::all(Val::Px(18.0)),
+                padding: UiRect::all(Val::Px(30.0)),
+                ..default()
+            };
             parent.spawn(
                 TextBundle::from_section(
                     "Press any button below",
@@ -49,11 +54,7 @@ fn setup(mut commands: Commands) {
                     },
                 )
                 .with_text_alignment(TextAlignment::Center)
-                .with_style(Style {
-                    margin: UiRect::all(Val::Px(18.0)),
-                    padding: UiRect::all(Val::Px(30.0)),
-                    ..default()
-                }),
+                .with_style(style.clone()),
             );
             for (text, color) in [
                 ("Green", Color::GREEN),
@@ -62,15 +63,10 @@ fn setup(mut commands: Commands) {
             ] {
                 parent.spawn((
                     ButtonBundle {
-                        style: Style {
-                            margin: UiRect::all(Val::Px(18.0)),
-                            padding: UiRect::all(Val::Px(30.0)),
-                            ..default()
-                        },
+                        style: style.clone(),
                         background_color: BackgroundColor(color),
                         ..default()
                     },
-                    GameButton::default(),
                     Name::new(text),
                 ));
             }
