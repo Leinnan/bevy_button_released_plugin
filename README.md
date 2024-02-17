@@ -72,7 +72,7 @@ fn setup(mut commands: Commands) {
                         ..default()
                     },
                 )
-                .with_text_alignment(TextAlignment::Center)
+                .with_text_justify(JustifyText::Center)
                 .with_style(style.clone()),
             );
             for (text, color) in [
