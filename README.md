@@ -96,6 +96,7 @@ fn setup(mut commands: Commands) {
 # Bevy compatibility table
 Bevy version | Crate version
 --- | ---
+0.13 | 0.5
 0.12 | 0.3,0.4
 0.11 | 0.2
 0.10 | 0.1
