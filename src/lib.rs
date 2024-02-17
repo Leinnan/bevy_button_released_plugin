@@ -1,5 +1,6 @@
 #[cfg(feature = "auto_add")]
 use bevy::ecs::*;
+use bevy::reflect::Reflect;
 use bevy::{
     prelude::{App, Changed, Component, Deref, Entity, Event, EventWriter, Plugin, Query, Update},
     ui::*,
@@ -7,10 +8,10 @@ use bevy::{
 
 pub struct ButtonsReleasedPlugin;
 
-#[derive(Deref, Event)]
+#[derive(Deref, Event, Reflect)]
 pub struct ButtonReleasedEvent(Entity);
 
-#[derive(Component, Default)]
+#[derive(Component, Default, Reflect)]
 pub struct GameButton {
     pub last_state: Interaction,
 }
@@ -18,6 +19,8 @@ pub struct GameButton {
 impl Plugin for ButtonsReleasedPlugin {
     fn build(&self, app: &mut App) {
         app.add_event::<ButtonReleasedEvent>()
+            .register_type::<GameButton>()
+            .register_type::<ButtonReleasedEvent>()
             .add_systems(Update, button_click_system);
         #[cfg(feature = "auto_add")]
         app.add_systems(bevy::app::PostUpdate, add_game_button);
@@ -39,14 +42,10 @@ fn button_click_system(
     mut ev: EventWriter<ButtonReleasedEvent>,
 ) {
     for (entity, interaction, mut game_button) in &mut interaction_query {
-        match *interaction {
-            Interaction::Hovered => {
-                if game_button.last_state == Interaction::Pressed {
-                    ev.send(ButtonReleasedEvent(entity));
-                }
-            }
-            _ => {}
+        if *interaction == Interaction::Hovered && game_button.last_state == Interaction::Pressed {
+            ev.send(ButtonReleasedEvent(entity));
         }
+
         game_button.last_state = *interaction;
     }
 }

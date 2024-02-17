@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.5]
+
+### Changed
+
+- Updated to Bevy 0.13
+
 ## [0.4]
 
 ### Added
@@ -10,14 +16,14 @@
 
 ### Changed
 
-- updated to Bevy 0.12
+- Updated to Bevy 0.12
 
 ## [0.2]
 
 ### Changed
 
-- updated to Bevy 0.11
+- Updated to Bevy 0.11
 
 ## [0.1]
 
-- initial version
+- Initial version

@@ -1,6 +1,6 @@
 [package]
 name = "bevy_button_released_plugin"
-version = "0.3.1"
+version = "0.5.0"
 edition = "2021"
 repository = "https://github.com/Leinnan/bevy_button_released_plugin"
 homepage = "https://github.com/Leinnan/bevy_button_released_plugin"
@@ -17,7 +17,7 @@ default = ["auto_add"]
 auto_add = []
 
 [dependencies]
-bevy = { version = "0.12", default-features = false, features = [
+bevy = { version = "0.13", default-features = false, features = [
     "bevy_ui",
     "bevy_asset",
     "bevy_text",
@@ -25,4 +25,4 @@ bevy = { version = "0.12", default-features = false, features = [
 ] }
 
 [dev-dependencies]
-bevy = "0.12"
+bevy = "0.13"
