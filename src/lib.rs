@@ -1,5 +1,7 @@
+use bevy::ecs::system::Res;
 #[cfg(feature = "auto_add")]
 use bevy::ecs::*;
+use bevy::input::touch::Touches;
 use bevy::reflect::Reflect;
 use bevy::{
     prelude::{App, Changed, Component, Deref, Entity, Event, EventWriter, Plugin, Query, Update},
@@ -38,11 +40,14 @@ fn add_game_button(
 }
 
 fn button_click_system(
+    touches: Res<Touches>,
     mut interaction_query: Query<(Entity, &Interaction, &mut GameButton), Changed<Interaction>>,
     mut ev: EventWriter<ButtonReleasedEvent>,
 ) {
+    let any_input_released = touches.any_just_released();
     for (entity, interaction, mut game_button) in &mut interaction_query {
-        if *interaction == Interaction::Hovered && game_button.last_state == Interaction::Pressed {
+        let was_hovered = any_input_released || *interaction == Interaction::Hovered;
+        if was_hovered && game_button.last_state == Interaction::Pressed {
             ev.send(ButtonReleasedEvent(entity));
         }
 
