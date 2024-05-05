@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.5.1]
+
+### Added
+
+- Support for touch input. 
+
 ## [0.5]
 
 ### Changed
