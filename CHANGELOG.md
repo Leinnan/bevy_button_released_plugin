@@ -1,10 +1,16 @@
 # Changelog
 
+## [0.6]
+
+### Changed
+
+- Updated to Bevy 0.14
+
 ## [0.5.1]
 
 ### Added
 
-- Support for touch input. 
+- Support for touch input.
 
 ## [0.5]
 
