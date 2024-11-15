@@ -17,29 +17,23 @@ cargo add bevy_button_released_plugin
 Add `ButtonsReleasedPlugin` during app creation process, then the `GameButton` component will be added to buttons and it is possible to react to it like in `button_system` function in example below. Auto adding `GameButton` can be disabled by disabling default "auto_add" feature.
 
 ```rust
-use bevy::prelude::*;
-use bevy_button_released_plugin::{ButtonReleasedEvent, ButtonsReleasedPlugin};
+use bevy::{color::palettes::css::*, prelude::*};
+use bevy_button_released_plugin::{ButtonsReleasedPlugin, OnButtonReleased};
 
 pub fn main() {
-    let mut app = App::new();
-    app.add_plugins(DefaultPlugins)
+    App::new()
+        .add_plugins(DefaultPlugins)
         .add_plugins(ButtonsReleasedPlugin)
         .add_systems(Startup, setup)
-        .add_systems(Update, button_system);
-    app.run();
+        .run();
 }
 
-fn button_system(
-    mut reader: EventReader<ButtonReleasedEvent>,
-    q: Query<&Name>,
-    mut q_text: Query<&mut Text>,
-) {
+fn on_button(trigger: Trigger<OnButtonReleased>, q: Query<&Name>, mut q_text: Query<&mut Text>) {
     let mut text = q_text.single_mut();
-    for event in reader.read() {
-        if let Ok(button_name) = q.get(**event) {
-            text.sections[0].value = format!("Last button released: {}", button_name);
-        }
-    }
+    let Ok(button_name) = q.get(trigger.entity()) else {
+        return;
+    };
+    text.sections[0].value = format!("Last button released: {}", button_name);
 }
 
 fn setup(mut commands: Commands) {
@@ -47,58 +41,57 @@ fn setup(mut commands: Commands) {
     commands.spawn(Camera2dBundle::default());
 
     // root node
-    commands
-        .spawn(NodeBundle {
-            style: Style {
-                width: Val::Percent(100.0),
-                height: Val::Percent(100.0),
-                justify_content: JustifyContent::SpaceEvenly,
-                flex_direction: FlexDirection::Column,
-                ..default()
-            },
-            ..default()
-        })
-        .with_children(|parent| {
-            let style: Style = Style {
-                margin: UiRect::all(Val::Px(18.0)),
-                padding: UiRect::all(Val::Px(30.0)),
-                ..default()
-            };
-            parent.spawn(
-                TextBundle::from_section(
-                    "Press any button below",
-                    TextStyle {
-                        font_size: 30.0,
-                        ..default()
-                    },
-                )
-                .with_text_justify(JustifyText::Center)
-                .with_style(style.clone()),
-            );
-            for (text, color) in [
-                ("Green", Color::GREEN),
-                ("Red", Color::ORANGE_RED),
-                ("Yellow", Color::YELLOW),
-            ] {
-                parent.spawn((
+    commands.spawn(root()).with_children(|parent| {
+        parent.spawn(top_text());
+        for (text, color) in [("Green", GREEN), ("Red", RED), ("Yellow", YELLOW)] {
+            parent
+                .spawn((
                     ButtonBundle {
-                        style: style.clone(),
-                        background_color: BackgroundColor(color),
+                        style: style(),
+                        background_color: BackgroundColor(color.into()),
                         ..default()
                     },
                     Name::new(text),
-                ));
-            }
-        });
+                ))
+                .observe(on_button);
+        }
+    });
+}
+fn top_text() -> TextBundle {
+    TextBundle::from_section("Press any button below", default())
+        .with_text_justify(JustifyText::Center)
+        .with_style(style())
+}
+
+fn root() -> NodeBundle {
+    NodeBundle {
+        style: Style {
+            width: Val::Percent(100.0),
+            height: Val::Percent(100.0),
+            justify_content: JustifyContent::SpaceEvenly,
+            flex_direction: FlexDirection::Column,
+            ..default()
+        },
+        ..default()
+    }
+}
+
+fn style() -> Style {
+    let rect = UiRect::all(Val::Px(30.0));
+    Style {
+        margin: rect,
+        padding: rect,
+        ..default()
+    }
 }
 ```
 
 # Bevy compatibility table
 
-Bevy version | Crate version
---- | ---
-0.14 | 0.6
-0.13 | 0.5
-0.12 | 0.3,0.4
-0.11 | 0.2
-0.10 | 0.1
+| Bevy version | Crate version |
+| ------------ | ------------- |
+| 0.14         | 0.6, 0.7      |
+| 0.13         | 0.5           |
+| 0.12         | 0.3,0.4       |
+| 0.11         | 0.2           |
+| 0.10         | 0.1           |

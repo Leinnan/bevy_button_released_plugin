@@ -1,6 +1,16 @@
 # Changelog
 
-## [0.6]
+## [0.7.0]
+
+### Added
+
+- `OnButtonReleased` event that works with observer pattern.
+
+### Changed
+
+- Deprecate `ButtonReleasedEvent`.
+
+## [0.6.0]
 
 ### Changed
 
