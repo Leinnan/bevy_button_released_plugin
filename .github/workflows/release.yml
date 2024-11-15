@@ -42,7 +42,7 @@ jobs:
         if: ${{ github.event_name == 'push' }}
         run: |
           echo version=${GITHUB_REF#refs/tags/} >> $GITHUB_OUTPUT
-          echo info=$(git tag -l --format='%(contents)') >> $GITHUB_OUTPUT
+          echo info=$(git tag -l --format='%(contents)' ${GITHUB_REF#refs/tags/}) >> $GITHUB_OUTPUT
       - name: Get the release version from the input
         id: version_dispatch
         shell: bash
