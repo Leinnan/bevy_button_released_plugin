@@ -35,7 +35,9 @@ jobs:
       dry_run: ${{ steps.setup.outputs.dry_run }}
       info: ${{ steps.setup.outputs.info }}
     steps:
-
+      - name: Checkout
+        uses: actions/checkout@v4
+        if: ${{ github.event_name == 'push' }}
       - name: Get the release version from the tag
         id: version_push
         shell: bash
