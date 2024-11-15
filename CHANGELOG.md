@@ -8,6 +8,7 @@
 
 ### Changed
 
+- Updated sample code.
 - Deprecate `ButtonReleasedEvent`.
 
 ## [0.6.0]
