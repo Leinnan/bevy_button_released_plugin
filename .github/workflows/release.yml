@@ -38,7 +38,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         if: ${{ github.event_name == 'push' }}
-      - name: Get the release version from the tag
+      - name: Get the release version from the tag and info from commit
         id: version_push
         shell: bash
         if: ${{ github.event_name == 'push' }}
