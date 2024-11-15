@@ -34,9 +34,9 @@ jobs:
       - name: Install alsa and udev
         run: sudo apt-get install --no-install-recommends libasound2-dev libudev-dev
       - name: Install wasm bindgen
-        uses: baptiste0928/cargo-install@v2
+        uses: taiki-e/cache-cargo-install-action@v2
         with:
-          crate: wasm-bindgen-cli
+          tool: wasm-bindgen-cli
       - name: Build
         run: cargo build --release --target wasm32-unknown-unknown --example simple && wasm-bindgen --out-dir ./out/ --target web ./target/wasm32-unknown-unknown/release/examples/simple.wasm  
       - name: Copy
