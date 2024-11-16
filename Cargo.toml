@@ -1,6 +1,6 @@
 [package]
 name = "bevy_button_released_plugin"
-version = "0.7.0"
+version = "0.8.0"
 edition = "2021"
 repository = "https://github.com/Leinnan/bevy_button_released_plugin"
 homepage = "https://github.com/Leinnan/bevy_button_released_plugin"
@@ -15,9 +15,10 @@ description = "Bevy helper crate that allows to react to button being released."
 [features]
 default = ["auto_add"]
 auto_add = []
+global_event = []
 
 [dependencies]
-bevy = { version = "0.14", default-features = false, features = [
+bevy = { version = "0.15.0-rc.3", default-features = false, features = [
     "bevy_ui",
     "bevy_asset",
     "bevy_text",
@@ -25,4 +26,4 @@ bevy = { version = "0.14", default-features = false, features = [
 ] }
 
 [dev-dependencies]
-bevy = "0.14"
+bevy = "0.15.0-rc.3"

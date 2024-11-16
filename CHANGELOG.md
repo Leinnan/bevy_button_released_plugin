@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.8.0]
+
+### Added
+
+- `GameButton` component requires `Interaction` component. Even before that release it was the case, but now it is embedded in code.
+
+### Changed
+
+- Updated to Bevy 0.15.
+- Put `ButtonReleasedEvent` behind the `global_event` feature that is not enabled by default.
+
 ## [0.7.0]
 
 ### Added

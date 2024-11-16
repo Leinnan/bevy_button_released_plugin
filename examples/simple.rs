@@ -11,54 +11,48 @@ pub fn main() {
 
 fn on_button(trigger: Trigger<OnButtonReleased>, q: Query<&Name>, mut q_text: Query<&mut Text>) {
     let button_name = q.get(trigger.entity()).expect("Missing Name!");
-    q_text.single_mut().sections[0].value = format!("Last button released: {}", button_name);
+    q_text.single_mut().0 = format!("Last button released: {}", button_name);
 }
 
 fn setup(mut commands: Commands) {
-    // Camera
-    commands.spawn(Camera2dBundle::default());
+    commands.spawn(Camera2d);
 
-    // root node
     commands.spawn(root()).with_children(|parent| {
-        parent.spawn(top_text());
+        parent.spawn((
+            Text::new("Press any button below"),
+            TextFont {
+                font_size: 40.0,
+                ..default()
+            },
+            node(50.0),
+        ));
         for (text, color) in [("Green", GREEN), ("Red", RED), ("Yellow", YELLOW)] {
             parent
                 .spawn((
-                    ButtonBundle {
-                        style: style(),
-                        background_color: BackgroundColor(color.into()),
-                        ..default()
-                    },
+                    Button,
+                    node(80.0),
+                    BackgroundColor(color.into()),
                     Name::new(text),
                 ))
                 .observe(on_button);
         }
     });
 }
-fn top_text() -> TextBundle {
-    TextBundle::from_section("Press any button below", default())
-        .with_text_justify(JustifyText::Center)
-        .with_style(style())
-}
 
-fn root() -> NodeBundle {
-    NodeBundle {
-        style: Style {
-            width: Val::Percent(100.0),
-            height: Val::Percent(100.0),
-            justify_content: JustifyContent::SpaceEvenly,
-            flex_direction: FlexDirection::Column,
-            ..default()
-        },
+fn root() -> impl Bundle {
+    Node {
+        width: Val::Percent(100.0),
+        height: Val::Percent(100.0),
+        padding: UiRect::all(Val::Px(50.0)),
+        justify_content: JustifyContent::SpaceEvenly,
+        flex_direction: FlexDirection::Column,
         ..default()
     }
 }
 
-fn style() -> Style {
-    let rect = UiRect::all(Val::Px(30.0));
-    Style {
-        margin: rect,
-        padding: rect,
+fn node(height: f32) -> Node {
+    Node {
+        height: Val::Px(height),
         ..default()
     }
 }
