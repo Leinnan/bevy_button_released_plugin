@@ -18,7 +18,7 @@ auto_add = []
 global_event = []
 
 [dependencies]
-bevy = { version = "0.15.0-rc.3", default-features = false, features = [
+bevy = { version = "0.15", default-features = false, features = [
     "bevy_ui",
     "bevy_asset",
     "bevy_text",
@@ -26,4 +26,4 @@ bevy = { version = "0.15.0-rc.3", default-features = false, features = [
 ] }
 
 [dev-dependencies]
-bevy = "0.15.0-rc.3"
+bevy = "0.15"

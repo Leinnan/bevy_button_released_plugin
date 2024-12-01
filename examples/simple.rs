@@ -11,7 +11,7 @@ pub fn main() {
 
 fn on_button(trigger: Trigger<OnButtonReleased>, q: Query<&Name>, mut q_text: Query<&mut Text>) {
     let button_name = q.get(trigger.entity()).expect("Missing Name!");
-    q_text.single_mut().0 = format!("Last button released: {}", button_name);
+    **q_text.single_mut() = format!("Last button released: {}", button_name);
 }
 
 fn setup(mut commands: Commands) {
