@@ -4,7 +4,66 @@
 [![license](https://img.shields.io/crates/l/bevy_button_released_plugin)](https://github.com/Leinnan/bevy_button_released_plugin#license)
 [![crates.io](https://img.shields.io/crates/d/bevy_button_released_plugin.svg)](https://crates.io/crates/bevy_button_released_plugin)
 
-This crate makes [Bevy](https://github.com/bevyengine/bevy) application aware of the release of the button instead of reacting right after clicking. I think it will be addressed in next release but until then it could be helpful for some people.
+This crate was useful in older versions of the Bevy Engine. Starting from 0.15 what this crate helped with can be achieved in Bevy without extra dependencies:
+
+```rust
+use bevy::{color::palettes::css::*, prelude::*};
+
+pub fn main() {
+    App::new()
+        .add_plugins(DefaultPlugins)
+        .add_systems(Startup, setup)
+        .run();
+}
+
+fn on_button(trigger: Trigger<Pointer<Up>>, q: Query<&Name>, mut q_text: Query<&mut Text>) {
+    let button_name = q.get(trigger.entity()).expect("Missing Name!");
+    **q_text.single_mut() = format!("Last button released: {}", button_name);
+}
+
+fn setup(mut commands: Commands) {
+    commands.spawn(Camera2d);
+
+    commands.spawn(root()).with_children(|parent| {
+        parent.spawn((
+            Text::new("Press any button below"),
+            TextFont {
+                font_size: 40.0,
+                ..default()
+            },
+            node(50.0),
+        ));
+        for (text, color) in [("Green", GREEN), ("Red", RED), ("Yellow", YELLOW)] {
+            parent
+                .spawn((
+                    Button,
+                    node(80.0),
+                    BackgroundColor(color.into()),
+                    Name::new(text),
+                ))
+                .observe(on_button);
+        }
+    });
+}
+
+fn root() -> impl Bundle {
+    Node {
+        width: Val::Percent(100.0),
+        height: Val::Percent(100.0),
+        padding: UiRect::all(Val::Px(50.0)),
+        justify_content: JustifyContent::SpaceEvenly,
+        flex_direction: FlexDirection::Column,
+        ..default()
+    }
+}
+
+fn node(height: f32) -> Node {
+    Node {
+        height: Val::Px(height),
+        ..default()
+    }
+}
+```
 
 # Install
 
